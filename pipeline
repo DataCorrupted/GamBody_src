@@ -1,0 +1,54 @@
+Back - Data = Body 	% This body have shadow inside.w
+
+(Back * tatio - Data) > thr = Shadow	% Shadow part being 1 and other being 0.
+Body - Shadow.
+
+Body size detect
+
+Body = Body > thr
+cover = Mask and Body
+body_thr = .95 % TBD
+mask_thr = % TBD
+if cover / body > body_thr and cover / mask > mask_thr
+	Success.
+else
+	Fail
+
+Check
+	Match man Check
+
+
+
+main(){
+	
+	calibrate()
+
+	levels = 100
+	level = 0;
+	while level < levels
+		level = level + 1
+
+		% Randomly generate(Take ) mask.
+		% MAKE IT REASONABLE!
+		mask = genMask()
+
+		% From camera stream get data.
+		img = getData()	
+
+		% Find body region.
+		body = getBody(img)
+
+		% Make sure if success
+		judge = isPass(body, mask)
+
+		%drawOutfit: if success, draw green outfit, else red
+		drawOutfit(judge, body, mask)
+
+		% Just passed a level
+		if time >= critical_time
+			showMsg(judge)
+			% Failed, return.
+			if ~judge
+				break
+
+}
