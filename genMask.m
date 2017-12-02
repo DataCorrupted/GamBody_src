@@ -7,7 +7,7 @@ function [ mask ] = genMask(  )
 %	None
 %
 % Output:
-% 	mask: boolean. Matrix with size(1024*768). The challange
+% 	mask: boolean. Matrix with size(1280*720). The challange
 %		  we proposed to the user.
 %
 

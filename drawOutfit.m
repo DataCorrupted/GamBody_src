@@ -5,8 +5,8 @@ function [  ] = drawOutfit( judge, body, mask )
 %
 % Input: 
 %   judge: boolean. Whether the player succeed or not.
-% 	body: boolean. Matrix with size(1024*768). User's body.
-% 	mask: boolean. Matrix with size(1024*768). The challange
+% 	body: boolean. Matrix with size(1280*720). User's body.
+% 	mask: boolean. Matrix with size(1280*720). The challange
 %		  we proposed to the user.
 %
 % Output:

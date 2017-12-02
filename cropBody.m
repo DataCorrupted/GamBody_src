@@ -4,11 +4,11 @@ function [ body ] = cropBody( img, back )
 % Given an image, tell where the player's body is.
 %
 % Input: 
-%   img: double. Matrix with size(1024*768*3)
-%   back: double. Matrix with size(1024*768*3), background.
+%   img: double. Matrix with size(1280*720*3)
+%   back: double. Matrix with size(1280*720*3), background.
 %
 % Output:
-% 	body: boolean. Matrix with size(1024*768), where 1 means 
+% 	body: boolean. Matrix with size(1280*720), where 1 means 
 %		  this pixel is body.
 %
 body = zeros(size(img));
