@@ -27,17 +27,17 @@ bbimg = body_without_head(bb_index(2):bb_index(2)+bb_index(4),bb_index(1):bb_ind
 % if the max value(the best match ratio) > 0.95(maybe other number), we treat this as a good match.
 c =normxcorr2(bbimg,body_without_head);
 max(c(:))
-% figure(1);
-% subplot(2,2,1);
-% imshow(data);
-% subplot(2,2,2);
-% imshow(body);
-% subplot(2,2,3);
-% imshow(back);
-% subplot(2,2,4);
-% imshow(body_with_head);
-% figure(2);
-% imshow(bbimg);
+figure(1);
+subplot(2,2,1);
+imshow(data);
+subplot(2,2,2);
+imshow(body);
+subplot(2,2,3);
+imshow(back);
+subplot(2,2,4);
+imshow(body_with_head);
+figure(2);
+imshow(bbimg);
 
 toc
 
