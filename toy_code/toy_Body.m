@@ -3,6 +3,7 @@ clear all;
 tic
 back = im2double(rgb2gray((imread('../test_imgs/2.jpg'))));
 data = im2double(rgb2gray((imread('../test_imgs/1.jpg'))));
+
 back = gaussian(back, 2, 5);
 data = gaussian(data, 2, 5);
 % figure(1);
@@ -20,11 +21,11 @@ bb_index = bb.BoundingBox;
 bbimg = body_without_head(bb_index(2):bb_index(2)+bb_index(4),bb_index(1):bb_index(1)+bb_index(3));
 c =normxcorr2(bbimg,body_without_head);
 max(c(:))
-% subplot(2,2,3);
-% imshow(back);
-% subplot(2,2,4);
-% imshow(body);
-% figure(2);
-% imshow(body);
+subplot(2,2,3);
+imshow(back);
+subplot(2,2,4);
+imshow(body);
+figure(2);
+imshow(body);
 
 toc
