@@ -1,4 +1,4 @@
-function draw_on_video()
+function drawOnvideo()
 % draw_on_video Summary of this function goes here
 % 
 % Do real-time webcam processing and displaying
