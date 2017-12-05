@@ -1,9 +1,14 @@
 function drawOnvideo()
+% Just realized maybe we need to put this whole loop in main.
+% We will see later
+% 
 % This code will be moved to drawOutfit later.
-% We want the users to be greendish or redish should him success or fail
+% We want the users to be greenish or redish should him success or fail
 % This requires stream changing. We may have a global flag for success or 
 % fail and then tune the stream here.
-% 
+%
+% -- Peter Rong
+%
 % Do real-time webcam processing and displaying
 %
 % In this demo I just draw a yellow circle on the canvas
@@ -22,7 +27,8 @@ imaqreset
 % For Emily(or all Mac?), it's 'YCbCr422_1280x720'
 
 % TODO: We can't have each user to tune this code for themselves!
-% Can we ask MATLAB to do all the check and installing by itself?
+% Can we ask MATLAB to do all the checking and installing by itself?
+% --Solved
 imafo = imaqhwinfo;
 adaptor = imafo(1).InstalledAdaptors{1};
 adapinfo = imaqhwinfo(adaptor,1);
@@ -47,6 +53,10 @@ try
         flushdata(obj);
         % Here just draw a circle, but other operations can be performed
         I = insertShape(I,'circle',[640 300 100],'Linewidth',5);
+        
+        % This makes the center of image greenish.
+        % Given a correct mask we can achieve anything.
+        I(180:540, 320:960, 2) = I(180:540, 320:960, 2) * 1.5;
 
         %% This is what paints on the canvas
         set(h,'Cdata',I);
