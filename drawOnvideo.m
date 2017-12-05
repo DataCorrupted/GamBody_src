@@ -1,5 +1,8 @@
 function drawOnvideo()
-% drawOnVideo Summary of this function goes here
+% This code will be moved to drawOutfit later.
+% We want the users to be greendish or redish should him success or fail
+% This requires stream changing. We may have a global flag for success or 
+% fail and then tune the stream here.
 % 
 % Do real-time webcam processing and displaying
 %
@@ -7,8 +10,20 @@ function drawOnvideo()
 
 % the image acquisition hardware is reset
 imaqreset
-% The parameters may differ on distinct OS and PS, such as 'winvideo'
-obj = videoinput('macvideo',1,'YCbCr422_1280x720');
+% The parameters may differ for different OS and OEM.
+% Run "imaqhwinfo" to check if you have 'winvideo' installed. ( Or on other
+% platform, Mac should be 'macvideo')
+% Run "imaqhwinfo('winvideo')", you will see a field called "DeviceInfo"
+% Check "DeviceInfo" you will see it containing a field "SupportedFormats"
+% list them and pick one for your computer. 
+% (We use 1280x720 resolution by default.)
+% Since camera is device dependent, each computer can have different value.
+% For Peter(or all ThinkPad?), it's 'YUY2_1280x720'
+% For Emily(or all Mac?), it's 'YCbCr422_1280x720'
+
+% TODO: We can't have each user to tune this code for themselves!
+% Can we ask MATLAB to do all the check and installing by itself?
+obj = videoinput('winvideo', 1, 'YUY2_1280x720');
 try
     % Initialize various parameters, and load in the template data
     set(obj,'framesperTrigger',10,'TriggerRepeat',Inf);
