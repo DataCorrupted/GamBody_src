@@ -28,6 +28,7 @@ imaqreset
 
 % TODO: We can't have each user to tune this code for themselves!
 <<<<<<< HEAD
+<<<<<<< HEAD
 % Can we ask MATLAB to do all the check and installing by itself?
 imafo = imaqhwinfo;
 adaptor = imafo(1).InstalledAdaptors{1};
@@ -35,6 +36,8 @@ adapinfo = imaqhwinfo(adaptor,1);
 formats = adapinfo.DefaultFormat;
 obj = videoinput(adaptor, 1, formats);
 =======
+=======
+>>>>>>> 83c57375d1d974284140ae188a52df03f8ab952a
 % Can we ask MATLAB to do all the checking and installing by itself?
 obj = videoinput('winvideo', 1, 'YUY2_1280x720');
 >>>>>>> 83c57375d1d974284140ae188a52df03f8ab952a
