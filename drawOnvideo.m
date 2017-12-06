@@ -48,7 +48,6 @@ try
         flushdata(obj);
         % Here just draw a circle, but other operations can be performed
         I = insertShape(I,'circle',[640 300 100],'Linewidth',5);
-        
         % This makes the center of image greenish.
         % Given a correct mask we can achieve anything.
         I(180:540, 320:960, 2) = I(180:540, 320:960, 2) * 1.5;
