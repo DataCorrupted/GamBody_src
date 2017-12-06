@@ -11,7 +11,7 @@ function [ mask ] = genMask(  )
 %		  we proposed to the user.
 %
 
-mask = zeros(1024, 768);
-
+mask = zeros(720, 1280);
+mask(100:400, 200:500) = 1;
 end
 

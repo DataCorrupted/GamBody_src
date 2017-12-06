@@ -11,8 +11,7 @@ function [ is_pass ] = isPass( body, mask )
 % Output:
 %	is_pass: bollean. Whether the player passed.
 %
-cover = body & mask;
-is_pass = (sum(cover(:)) / sum(body(:)) > .95);
+is_pass = 0;
 
 end
 
