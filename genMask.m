@@ -1,4 +1,4 @@
-function [ mask ] = genMask(  )
+function [ mask ] = genMask()
 %genMask Summary of this function goes here
 %
 % Draw the current state as a feedback to user.
