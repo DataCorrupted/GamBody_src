@@ -12,12 +12,18 @@ function [  ] = drawOutfit( judge, body, mask )
 % Output:
 % 	None
 %
-imshow(mask + body);
+% imshow(mask + body);
+% not effective
+I = mask + body;
+edges = edge(body,'canny',0.1);
 if judge
     % Show green light
+    % very thin, have to update
+    display = imoverlay(I,edges,'green');
 else
     % Show red light
+    display = imoverlay(I,edges,'red');
 end
-
+imshow(display);
 end
 
