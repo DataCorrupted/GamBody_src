@@ -35,7 +35,7 @@ try
     % Initialize various parameters, and load in the template data
     set(obj,'framesperTrigger',10,'TriggerRepeat',Inf);
     start(obj);
-    back = getdata(obj,1);
+    back = rgb2gray(getdata(obj,1))> 250;
     % h is a handle to the canvas
     h = imshow(zeros(720,1280));
     hold on;
@@ -50,7 +50,8 @@ try
         % The following line performs color space transformation
         % I = ycbcr2rgb(I);
         %% Game's on
-        body = cropBody(img, back);
+        gray_img = double(rgb2gray(img)) / 256;
+        body = cropBody(gray_img, back);
         judge = isPass(body, mask);
         if toc > critical_time
             % A new level of game
@@ -60,12 +61,7 @@ try
         else
             % We want the users to be greenish or redish should him success
             % or fail. 
-            % Should him fail, judge is 0 and we change red channel.
-            % Should him success, judge is 1 and we change green channel.
-            img(:, :, 1+judge) = ...
-                uint8(double(img(:, :, 1+judge)) .* (1 + mask / 2));
-            % We change channel by making all pixel in the mask.
-            % Multiply by 1(out the mask) or 1.5(in the mask)
+            img = drawOutfir(judge, img, mask)
         end
         %% Image processing part goes here
         % Remove all logged data records associated with object
