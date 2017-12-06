@@ -43,8 +43,7 @@ try
     tic
     % Capturing and displaying the processed image during the run time of
     % the camera
-    level = -1;
-    mask = zeros(720, 1280);
+    mask = genMask();
     while islogging(obj)
         % Read a image from camera stream
         img = getdata(obj,1);
@@ -53,11 +52,11 @@ try
         %% Game's on
         body = cropBody(img, back);
         judge = isPass(body, mask);
-        pause(0.25);
-        if floor(toc / critical_time) > level
+        if toc > critical_time
             % A new level of game
             mask = genMask();
-            level = level + 1;
+            showMsg(judge);
+            tic
         else
             % We want the users to be greenish or redish should him success
             % or fail. 

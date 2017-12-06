@@ -15,6 +15,6 @@ if judge
 else
     fprintf('Fail.\n');
 end
-
+pause(1)
 end
 
