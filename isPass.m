@@ -19,6 +19,6 @@ NUMBER_PART = 2;
 is_pass = 0;
 bbimg = getBondingImg(body,NUMBER_PART);
 c =normxcorr2(mask,bbimg);
-is_pass = c > MATCH_RATIO;
+is_pass = max(c(:)) > MATCH_RATIO;
 
 end
