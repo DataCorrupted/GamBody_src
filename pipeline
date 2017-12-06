@@ -1,4 +1,4 @@
-Back - Data = Body 	% This body have shadow inside.w
+Back - Data = Body 	% This body has shadow inside.
 
 (Back * tatio - Data) > thr = Shadow	% Shadow part being 1 and other being 0.
 Body - Shadow.
@@ -20,7 +20,7 @@ Check
 
 
 main(){
-	
+
 	calibrate()
 
 	levels = 100
@@ -33,7 +33,7 @@ main(){
 		mask = genMask()
 
 		% From camera stream get data.
-		img = getData()	
+		img = getData()
 
 		% Find body region.
 		body = getBody(img)

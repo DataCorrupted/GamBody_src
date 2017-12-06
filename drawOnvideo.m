@@ -1,7 +1,7 @@
 function drawOnvideo()
 % Just realized maybe we need to put this whole loop in main.
 % We will see later
-%
+% 
 % This code will be moved to drawOutfit later.
 % We want the users to be greenish or redish should him success or fail
 % This requires stream changing. We may have a global flag for success or 
@@ -28,7 +28,12 @@ imaqreset
 
 % TODO: We can't have each user to tune this code for themselves!
 % Can we ask MATLAB to do all the checking and installing by itself?
-obj = videoinput('winvideo', 1, 'YUY2_1280x720');
+% --Solved
+imafo = imaqhwinfo;
+adaptor = imafo(1).InstalledAdaptors{1};
+adapinfo = imaqhwinfo(adaptor,1);
+formats = adapinfo.DefaultFormat;
+obj = videoinput(adaptor, 1, formats);
 try
     % Initialize various parameters, and load in the template data
     set(obj,'framesperTrigger',10,'TriggerRepeat',Inf);
