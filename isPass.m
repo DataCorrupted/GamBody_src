@@ -16,8 +16,7 @@ MATCH_RATIO = 0.95;
 NUMBER_PART = 2;
 %number part means how many part peter rong is devided.
 
-is_pass = 0;
-bbimg = getBondingImg(body,NUMBER_PART);
+bbimg = getBondingImg(body, NUMBER_PART);
 c =normxcorr2(mask,bbimg);
 is_pass = c > MATCH_RATIO;
 
