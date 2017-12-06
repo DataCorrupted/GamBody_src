@@ -12,6 +12,13 @@ function [ mask ] = genMask(  )
 %
 
 mask = zeros(720, 1280);
-mask(100:400, 200:500) = 1;
+mask_cnt = 2;
+idx = randi(mask_cnt);
+pat = strcat('masks/mask', num2str(idx), '.jpg');
+mask = imread(pat);
+mask = rgb2gray(mask);
+subplot(121); imshow(mask);
+mask = mask > 200;
+subplot(122); imshow(mask);
 end
 
