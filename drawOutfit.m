@@ -1,4 +1,4 @@
-function [  ] = drawOutfit( judge, body, mask )
+function [ edge_body ] = drawOutfit( judge, body, mask )
 %drawOutfit Summary of this function goes here
 %
 % Draw the current state as a feedback to user.
@@ -23,14 +23,25 @@ function [  ] = drawOutfit( judge, body, mask )
 % imshow(mask + body);
 % not effective
 I = mask + body;
-edges = edge(body,'canny',0.1);
+
+% Try to draw the outfit of mask and body simultaneously
+% May not look good, need to adjust the UI later
+% edge_mask = edge(mask,'canny',0.1);
+
+edge_body = edge(body,'canny',0.1);
+% Filtering to thicken the edges
+kernel = ones(7,7);
+edge_body = conv2(double(edge_body),kernel,'same') > 0;
+% edge_mask = conv2(double(edge_mask),kernel,'same') > 0;
+
 if judge
-    % Show green light
-    % very thin, have to update
-    display = imoverlay(I,edges,'green');
+    % Show green body (maybe yellow mask?)
+    display = imoverlay(I,edge_body,'green');
+    % display = imoverlay(display,edge_mask,'yellow');
 else
-    % Show red light
-    display = imoverlay(I,edges,'red');
+    % Show red body (maybe yellow mask?)
+    display = imoverlay(I,edge_body,'red');
+    % display = imoverlay(display,edge_mask,'yellow');
 end
 imshow(display);
 
