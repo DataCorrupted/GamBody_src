@@ -1,4 +1,4 @@
-function [ edge_body ] = drawOutfit( judge, body, mask )
+function [ ] = drawOutfit( judge, body, mask )
 %drawOutfit Summary of this function goes here
 %
 % Draw the current state as a feedback to user.
