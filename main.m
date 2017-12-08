@@ -58,10 +58,12 @@ try
         % I = ycbcr2rgb(I);
         %% Game's on
         % TODO: I can't extract a background outside the loop. Back and img
-        % will be the same
+        % will be the same because flushdata didn't work. No idea why.
         if have_back == 0 
             back = img;
             have_back = 1;
+        % TODO: If a pause is added here, set(h, 'Cdata', img) will fail.
+        % But it would be best if we give user some time to wait.
         else
             body = cropBody(img, back);
             judge = isPass(body, mask);
