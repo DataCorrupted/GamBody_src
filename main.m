@@ -82,7 +82,6 @@ try
         % Remove all logged data records associated with object
         flushdata(obj);
         %% This is what paints on the canvas
-        img = drawOutfit(judge, img, mask);
         set(h, 'Cdata', img);
         drawnow;
     end

@@ -15,9 +15,10 @@ function [ is_pass ] = isPass( body, mask )
 MATCH_RATIO = 0.95;
 NUMBER_PART = 2;
 % number part means how many part peter rong is devided.
-
-bbimg = getBondingImg(body, NUMBER_PART);
-c = normxcorr2(bbimg, mask);
-is_pass = max(c(:)) > MATCH_RATIO;
-
+try
+    bbimg = getBondingImg(body, NUMBER_PART);
+    c = normxcorr2(bbimg, mask);
+    is_pass = max(c(:)) > MATCH_RATIO;
+catch 
+    is_pass = 0;
 end
