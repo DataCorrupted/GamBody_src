@@ -35,42 +35,53 @@ try
     % Initialize various parameters, and load in the template data
     set(obj, 'framesperTrigger', 10, 'TriggerRepeat', Inf);
     start(obj);
-    back = double(getdata(obj,1))/ 255;
-    flushdata(obj);
-    imshow(back);
-    pause;
-    
     
     % h is a handle to the canvas
     h = imshow(zeros(720,1280));
     hold on;
+
+%     back = double(getdata(obj,1))/ 255;
+%     flushdata(obj);
+%     set(h,'Cdata',back);
+%     drawnow;
+%     pause;    
+    
     tic
     % Capturing and displaying the processed image during the run time of
     % the camera
     mask = genMask();
+    have_back = 0;
     while islogging(obj)
         % Read a image from camera stream
         img = double(getdata(obj,1)) / 255;
         % The following line performs color space transformation
         % I = ycbcr2rgb(I);
         %% Game's on
-        body = cropBody(img, back);
-        judge = isPass(body, mask);
-        if toc > critical_time
-            % A new level of game
-            mask = genMask();
-            showMsg(judge);
-            tic
+        % TODO: I can't extract a background outside the loop. Back and img
+        % will be the same
+        if have_back == 0
+            back = img;
+            have_back = 1;
+            pause
         else
-            % We want the users to be greenish or redish should him success
-            % or fail. 
-            img = drawOutfir(judge, img, mask);
+            body = cropBody(img, back);
+            judge = isPass(body, mask);
+            if toc > critical_time
+                % A new level of game
+                mask = genMask();
+                showMsg(judge);
+                tic
+            else
+                % We want the users to be greenish or redish should him success
+                % or fail. 
+                img = drawOutfit(judge, img, mask);
+            end
         end
         %% Image processing part goes here
         % Remove all logged data records associated with object
         flushdata(obj);
         %% This is what paints on the canvas
-        set(h,'Cdata',img);
+        set(h, 'Cdata', img);
         drawnow;
     end
 
