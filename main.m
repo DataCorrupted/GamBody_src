@@ -1,4 +1,4 @@
-function [ ] = main( critical_time )
+%function [ ] = main( critical_time )
 %main Summary of this function goes here
 %
 % There is no main function is MATLAB, but having one is better.
@@ -10,7 +10,7 @@ function [ ] = main( critical_time )
 % Output:
 % 	None
 %
-
+critical_time = 3;
 % the image acquisition hardware is reset
 imaqreset
 % The parameters may differ for different OS and OEM.
@@ -59,11 +59,11 @@ try
         %% Game's on
         % TODO: I can't extract a background outside the loop. Back and img
         % will be the same
-        if have_back == 0
+        if have_back == 0 
             back = img;
             have_back = 1;
-            pause
-        else
+        end
+        if toc > critical_time
             body = cropBody(img, back);
             judge = isPass(body, mask);
             if toc > critical_time

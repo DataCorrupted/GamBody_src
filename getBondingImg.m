@@ -9,7 +9,7 @@ bb = regionprops(body_with_head, 'BoundingBox');
 % index format is x y dx dy.
 % Peter: add a min len(bb) in case we have less regions than we expected,
 % which is a good sign, but we don't want to crush the program
-bb_index = getBB(bb, min(length(bb), number))
+bb_index = getBB(bb, min(length(bb), number));
 % bbimg is the bounding box image, which is small and faster to compute.
 bbimg = body_with_head(bb_index(2):bb_index(4),bb_index(1):bb_index(3));
 
