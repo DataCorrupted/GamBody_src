@@ -17,6 +17,7 @@ THR_DIFF = 0.14;
 
 back = gaussian(back, 2, 5);
 img = gaussian(img, 2, 5);
+
 body = abs(rgb2gray(img - back)) > THR_DIFF ;
 
 end

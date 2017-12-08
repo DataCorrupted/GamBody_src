@@ -33,25 +33,28 @@ formats = adapinfo.SupportedFormats{1};
 obj = videoinput(adaptor, 1, formats);
 try
     % Initialize various parameters, and load in the template data
-    set(obj,'framesperTrigger',10,'TriggerRepeat',Inf);
+    set(obj, 'framesperTrigger', 10, 'TriggerRepeat', Inf);
     start(obj);
-    back = rgb2gray(getdata(obj,1))> 250;
+    back = double(getdata(obj,1))/ 255;
+    flushdata(obj);
+    imshow(back);
+    pause;
+    
+    
     % h is a handle to the canvas
     h = imshow(zeros(720,1280));
     hold on;
-
     tic
     % Capturing and displaying the processed image during the run time of
     % the camera
     mask = genMask();
     while islogging(obj)
         % Read a image from camera stream
-        img = getdata(obj,1);
+        img = double(getdata(obj,1)) / 255;
         % The following line performs color space transformation
         % I = ycbcr2rgb(I);
         %% Game's on
-        gray_img = double(rgb2gray(img)) / 256;
-        body = cropBody(gray_img, back);
+        body = cropBody(img, back);
         judge = isPass(body, mask);
         if toc > critical_time
             % A new level of game
@@ -61,7 +64,7 @@ try
         else
             % We want the users to be greenish or redish should him success
             % or fail. 
-            img = drawOutfir(judge, img, mask)
+            img = drawOutfir(judge, img, mask);
         end
         %% Image processing part goes here
         % Remove all logged data records associated with object
