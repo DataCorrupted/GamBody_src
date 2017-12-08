@@ -62,8 +62,7 @@ try
         if have_back == 0 
             back = img;
             have_back = 1;
-        end
-        if toc > critical_time
+        else
             body = cropBody(img, back);
             judge = isPass(body, mask);
             if toc > critical_time
@@ -81,6 +80,7 @@ try
         % Remove all logged data records associated with object
         flushdata(obj);
         %% This is what paints on the canvas
+        img = drawOutfit(judge, img, mask);
         set(h, 'Cdata', img);
         drawnow;
     end
