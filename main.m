@@ -1,16 +1,19 @@
-%function [ ] = main( critical_time )
+function [ ] = main( critical_time )
 %main Summary of this function goes here
 %
 % There is no main function is MATLAB, but having one is better.
 % Do real-time webcam processing and displaying
 %
 % Input: 
-%   critical_time: how much time you have for preparation.
+%   critical_time: how much time you have for preparation. By
+% 				   default it's 10.
 %
 % Output:
 % 	None
 %
-critical_time = 3;
+if nargin == 0
+	critical_time = 10;
+end
 % the image acquisition hardware is reset
 imaqreset
 % The parameters may differ for different OS and OEM.
@@ -54,6 +57,7 @@ try
     while islogging(obj)
         % Read a image from camera stream
         img = double(getdata(obj,1)) / 255;
+        img = flip(img, 2);
         % The following line performs color space transformation
         % I = ycbcr2rgb(I);
         %% Game's on
