@@ -20,12 +20,16 @@ img = gaussian(img, 2, 5);
 
 % directly use RGB gray value
 % it is different to use which first, rgb2gray and abs ...
-% body = abs(rgb2gray((img - back))) > THR_DIFF ;
+% body = rgb2gray(abs((img - back))) > THR_DIFF ;
+% subplot(2,2,3);
+% imshow(body)
 
 % using RGB 3 channel value
-body_log = abs(im2double(img) - im2double(back)) > color_diff;
+body_log = abs(img - back) > color_diff;
 body = rgb2gray(double(body_log)) > 0.001;
-
+% subplot(2,2,4);
+% imshow(body)
+% title('Result with filter');
 % use canny edge detector maybe
 
 % use HSV
