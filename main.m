@@ -54,6 +54,7 @@ try
     % the camera
     mask = genMask();
     have_back = 0;
+    judge = 0;
     while islogging(obj)
         % Read a image from camera stream
         img = double(getdata(obj,1)) / 255;
@@ -69,12 +70,12 @@ try
         % TODO: If a pause is added here, set(h, 'Cdata', img) will fail.
         % But it would be best if we give user some time to wait.
         else
-            body = cropBody(img, back);
-            judge = isPass(body, mask);
             if toc > critical_time
+                body = cropBody(img, back);
+                judge = isPass(body, mask);
+                showMsg(judge);
                 % A new level of game
                 mask = genMask();
-                showMsg(judge);
                 tic
             else
                 % We want the users to be greenish or redish should him success
