@@ -42,52 +42,56 @@ try
     % h is a handle to the canvas
     h = imshow(zeros(720,1280));
     hold on;
-
-%     back = double(getdata(obj,1))/ 255;
-%     flushdata(obj);
-%     set(h,'Cdata',back);
-%     drawnow;
-%     pause;    
-    
     tic
     % Capturing and displaying the processed image during the run time of
     % the camera
     mask = genMask();
     have_back = 0;
     judge = 0;
+    % Assume 24 fps, 50 should be 2s
+    show_time = 2;
     while islogging(obj)
-        % Read a image from camera stream
-        img = double(getdata(obj,1)) / 255;
-        img = flip(img, 2);
-        % The following line performs color space transformation
-        % I = ycbcr2rgb(I);
-        %% Game's on
-        % TODO: I can't extract a background outside the loop. Back and img
-        % will be the same because flushdata didn't work. No idea why.
-        if have_back == 0 
-            back = img;
-            have_back = 1;
-        % TODO: If a pause is added here, set(h, 'Cdata', img) will fail.
-        % But it would be best if we give user some time to wait.
+        if toc < critical_time
+            % Read a image from camera stream
+            img = double(getdata(obj,1)) / 255;
+            img = flip(img, 2);
+            show_img = img;
+            % The following line performs color space transformation
+            % I = ycbcr2rgb(I);
+            %% Game's on
+            % TODO: I can't extract a background outside the loop. Back and img
+            % will be the same because flushdata didn't work. No idea why.
+            if have_back == 0 
+                back = img;
+                have_back = 1;
+            % TODO: If a pause is added here, set(h, 'Cdata', img) will fail.
+            % But it would be best if we give user some time to wait.
+            else
+                show_img = drawOutfit(2, img, mask);
+            end            
         else
-            if toc > critical_time
+        if toc < show_time + critical_time
+            % We want the users to be greenish or redish should him success
+            % or fail. 
+            if judge ~= -1
                 body = cropBody(img, back);
                 judge = isPass(body, mask);
-                showMsg(judge);
-                % A new level of game
-                mask = genMask();
-                tic
-            else
-                % We want the users to be greenish or redish should him success
-                % or fail. 
-                img = drawOutfit(judge, img, mask);
             end
+            show_img = drawOutfit(judge, img, mask);
+        else
+            % A new level of game
+            showMsg(judge);
+            mask = genMask();
+            judge = -1;
+            tic
         end
-        %% Image processing part goes here
+        end
+        %% Drawing
+        % Image processing part goes here
         % Remove all logged data records associated with object
         flushdata(obj);
-        %% This is what paints on the canvas
-        set(h, 'Cdata', img);
+        % This is what paints on the canvas
+        set(h, 'Cdata', show_img);
         drawnow;
     end
 
