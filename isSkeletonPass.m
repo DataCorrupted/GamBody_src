@@ -4,8 +4,8 @@ function [ is_pass ] = isSkeletonPass( body, mask )
 % Draw the current state as a feedback to user.
 %
 % Input: 
-% 	body_path: String. A path to body json file.
-% 	mask_path: String. A path to mask json file.
+% 	body: double. Matrix(3*18*n), all points describing person.
+% 	mask: String. Matrix(3*18*n), all points describing mask.
 %
 % Output:
 %	is_pass: bollean. Whether the player passed.
