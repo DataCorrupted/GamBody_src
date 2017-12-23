@@ -1,4 +1,4 @@
-function [ is_pass ] = isSkeletonPass( body_path, mask_path )
+function [ is_pass ] = isPass( body_path, mask_path )
 %isPass Summary of this function goes here
 %
 % Draw the current state as a feedback to user.
@@ -20,7 +20,8 @@ jsonvertor1 = cell2mat(pirValBody);
 jsonvertor2 = cell2mat(pirValMask);
 loss = 0;
 count = 0;
-for i = 1:3:54
+l = min(length(jsonvertor1),length(jsonvertor2));
+for i = 1:3:l
     if jsonvertor1(i+2) >= 0.4 && jsonvertor2(i+2) >= 0.4
         loss = loss + norm(jsonvertor1(i:i+1)-jsonvertor2(i:i+1));
         count = count + 1;
