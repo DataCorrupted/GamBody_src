@@ -69,7 +69,7 @@ try
 
             show_img = img;
             else
-                show_img = drawOutfit(2, img, mask);
+                show_img = drawOutfit(2, img + sklt_img, mask);
             end            
         else
         if toc < show_time + critical_time
@@ -78,13 +78,13 @@ try
                 crowd_path = getSkeleton(img);
                 crowd = readJsonFile(crowd_path)
                 % body = Ernest's_Query(crowd);
-                judge = isSkeletonPass(body, mask);
+                judge = isSkeletonPass(body, sklt_vec);
             end
             show_img = drawOutfit(judge, img, mask);
         else
             % A new level of game
             showMsg(judge);
-            [mask, mask_ske] = genMask();
+            [mask, sklt_img, sklt_vec] = genMask();
             judge = -1;
             tic
         end
