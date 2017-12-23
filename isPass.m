@@ -32,12 +32,14 @@ pirValMask=jsonMask.people{1, 1}.pose_keypoints;
 jsonvertor1 = cell2mat(pirValBody);
 jsonvertor2 = cell2mat(pirValMask);
 error = 0;
+count = 0;
 for i = 1:3:48
-    if jsonvertor1(i+2) ~= 0 && jsonvertor2(i+2) ~= 0
+    if jsonvertor1(i+2) >= 0.4 && jsonvertor2(i+2) >= 0.4
         error = error + norm(jsonvertor1(i:i+1)-jsonvertor2(i:i+1));
+        count = count + 1;
     end
 end
-if error > 100
+if error > 100 || count < 10
     is_pass = 0;
 else
     is_pass = 1;
