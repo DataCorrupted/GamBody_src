@@ -72,10 +72,13 @@ try
         if toc < show_time + critical_time
             % Make a judge or show the result.
             if judge ~= -1
+                % Choose one out of two.                
+                % 1.
                 body = cropBody(img, back);
-                % Choose one out of two.
                 judge = isPass(body, mask);
-                judge = isSeletonPass(body, mask);
+                % 2.
+                body = getSkeleton(body);
+                judge = isSkeletonPass(body, mask);
             end
             show_img = drawOutfit(judge, img, mask);
         else
