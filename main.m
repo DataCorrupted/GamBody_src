@@ -56,15 +56,10 @@ try
             img = double(getdata(obj,1)) / 255;
             % Mirror
             img = flip(img, 2);
+
+            % Ernest's_Struct = Ernest's_Function(img, Ernest's_Struct);
+
             show_img = img;
-            %% Game's on
-            % TODO: I can't extract a background outside the loop. Back and img
-            % will be the same because flushdata didn't work. No idea why.
-            if have_back == 0 
-                back = img;
-                have_back = 1;
-            % TODO: If a pause is added here, set(h, 'Cdata', img) will fail.
-            % But it would be best if we give user some time to wait.
             else
                 show_img = drawOutfit(2, img, mask);
             end            
@@ -72,19 +67,16 @@ try
         if toc < show_time + critical_time
             % Make a judge or show the result.
             if judge ~= -1
-                % Choose one out of two.                
-                % 1.
-                body = cropBody(img, back);
-                judge = isPass(body, mask);
-                % 2.
-                body = getSkeleton(body);
+                crowd_path = getSkeleton(img);
+                crowd = readJsonFile(crowd_path)
+                % body = Ernest's_Query(crowd);
                 judge = isSkeletonPass(body, mask);
             end
             show_img = drawOutfit(judge, img, mask);
         else
             % A new level of game
             showMsg(judge);
-            mask = genMask();
+            [mask, mask_ske] = genMask();
             judge = -1;
             tic
         end
