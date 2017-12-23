@@ -1,0 +1,60 @@
+
+Back - Data = Body 	% This body have shadow inside.w
+					% Back means pre-photoed background picture
+					% Data means the picture with player in it. 
+(Back * ratio - Data) < thr = Shadow	% Shadow part being 1 and other being 0.
+										% May not work
+										% We try this way because shadow should have two light source, one is the point source, and the other is diffuse reflection light source. So the shadow should have a attenuation on brightness.
+										% it is had to get a ratio that works for universal cases, so we decide to compute the ratio when game starts(counting 3 2 1 on screen) 
+Body - Shadow.  % This is the ture body with noises.
+				% Maybe we need eliminate the edge response.
+
+Body size detect
+Body = Body > thr % handle with noises.
+Nomalize Body to make it has the same height with Mask.
+cover = Mask and Body % Mask is the pose player should do.
+body_thr = .95 % TBD
+mask_thr = % TBD
+if cover / body > body_thr and cover / mask > mask_thr
+	Success.
+else
+	Fail
+
+Check
+	Match man Check
+
+
+
+main(){
+	
+	calibrate()
+
+	levels = 100
+	level = 0;
+	while level < levels
+		level = level + 1
+
+		% Randomly generate(Take ) mask.
+		% MAKE IT REASONABLE!
+		mask = genMask()
+
+		% From camera stream get data.
+		img = getData()	
+
+		% Find body region.
+		body = getBody(img)
+
+		% Make sure if success
+		judge = isPass(body, mask)
+
+		%drawOutfit: if success, draw green outfit, else red
+		drawOutfit(judge, body, mask)
+
+		% Just passed a level
+		if time >= critical_time
+			showMsg(judge)
+			% Failed, return.
+			if ~judge
+				break
+
+}
