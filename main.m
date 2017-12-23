@@ -6,13 +6,13 @@ function [ ] = main( critical_time )
 %
 % Input: 
 %   critical_time: how much time you have for preparation. By
-% 				   default it's 10.
+%                  default it's 10.
 %
 % Output:
-% 	None
+%   None
 %
 if nargin == 0
-	critical_time = 10;
+    critical_time = 10;
 end
 % the image acquisition hardware is reset
 imaqreset
@@ -54,10 +54,9 @@ try
         if toc < critical_time
             % Read a image from camera stream
             img = double(getdata(obj,1)) / 255;
+            % Mirror
             img = flip(img, 2);
             show_img = img;
-            % The following line performs color space transformation
-            % I = ycbcr2rgb(I);
             %% Game's on
             % TODO: I can't extract a background outside the loop. Back and img
             % will be the same because flushdata didn't work. No idea why.
@@ -71,11 +70,12 @@ try
             end            
         else
         if toc < show_time + critical_time
-            % We want the users to be greenish or redish should him success
-            % or fail. 
+            % Make a judge or show the result.
             if judge ~= -1
                 body = cropBody(img, back);
+                % Choose one out of two.
                 judge = isPass(body, mask);
+                judge = isSeletonPass(body, mask);
             end
             show_img = drawOutfit(judge, img, mask);
         else

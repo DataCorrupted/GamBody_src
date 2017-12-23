@@ -10,7 +10,7 @@ function [ img ] = drawOutfit( judge, img, mask )
 %		  we proposed to the user.
 %
 % Output:
-% 	redish / greenish img
+% 	img: redish / greenish img
 %
 
 % Should him fail, judge is 0 and we change red channel.
