@@ -1,5 +1,5 @@
 function [ mask ,bbmask ] = genMaskFromImg(img,back)
-%genMask Summary of this function goes here
+%genMaskFromImg Summary of this function goes here
 %
 % Draw the current state as a feedback to user.
 %
