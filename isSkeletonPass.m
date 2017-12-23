@@ -20,13 +20,7 @@ jsonvertor1 = cell2mat(pirValBody);
 jsonvertor2 = cell2mat(pirValMask);
 loss = 0;
 count = 0;
-if length(jsonvertor1) ~= length(jsonvertor2)
-    is_pass = 0;
-    len = 0;
-else
-    len = length(jsonvertor1);
-end
-for i = 1:3:len
+for i = 1:3:54
     if jsonvertor1(i+2) >= 0.4 && jsonvertor2(i+2) >= 0.4
         loss = loss + norm(jsonvertor1(i:i+1)-jsonvertor2(i:i+1));
         count = count + 1;
