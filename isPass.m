@@ -1,35 +1,25 @@
-function [ is_pass ] = isPass( body_path, mask_path )
+function [ is_pass ] = isPass( body, mask )
 %isPass Summary of this function goes here
 %
 % Draw the current state as a feedback to user.
 %
 % Input: 
-% 	body_path: String. A path to body json file.
-% 	mask_path: String. A path to mask json file.
+% 	body: boolean. Matrix with size(1280*720). User's body.
+% 	mask: boolean. Matrix with size(1280*720). The challange
+%		  we proposed to the user.
 %
 % Output:
 %	is_pass: bollean. Whether the player passed.
 %
 
-addpath('jsonlab');
-jsonBody=loadjson(body_path);
-jsonMask=loadjson(mask_path);
-pirValBody=jsonBody.people{1, 1}.pose_keypoints;
-pirValMask=jsonMask.people{1, 1}.pose_keypoints;
-jsonvertor1 = cell2mat(pirValBody);
-jsonvertor2 = cell2mat(pirValMask);
-loss = 0;
-count = 0;
-for i = 1:3:54
-    if jsonvertor1(i+2) >= 0.4 && jsonvertor2(i+2) >= 0.4
-        loss = loss + norm(jsonvertor1(i:i+1)-jsonvertor2(i:i+1));
-        count = count + 1;
-    end
-end
-if loss > 100 || count < 10
+MATCH_RATIO = 0.70;
+NUMBER_PART = 2;
+% number part means how many part peter rong is devided.
+try
+    bbimg = getBondingImg(body, NUMBER_PART);
+    c = normxcorr2(bbimg, mask);
+     max(c(:)) 
+    is_pass = max(c(:)) > MATCH_RATIO;
+catch 
     is_pass = 0;
-else
-    is_pass = 1;
-end
-
 end
