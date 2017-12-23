@@ -28,7 +28,7 @@ img = gaussian(img, 2, 5);
 body_log = abs(img - back) > color_diff;
 body = rgb2gray(double(body_log)) > 0.001;
 % subplot(2,2,4);
-% imshow(body)
+% imshow(body);
 % title('Result with filter');
 % use canny edge detector maybe
 
