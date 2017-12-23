@@ -7,4 +7,5 @@ for i = 1:peopleCount
     pirVal=json.people{1, i}.pose_keypoints;
     vector(:,:,i) = reshape(cell2mat(pirVal),3,18);
 end
+end
 

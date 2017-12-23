@@ -57,11 +57,19 @@ try
             % Mirror
             img = flip(img, 2);
 
-            % Ernest's_Struct = Ernest's_Function(img, Ernest's_Struct);
+            % TODO: I can't extract a background outside the loop. Back and img
+            % will be the same because flushdata didn't work. No idea why.
+            if have_back == 0 
+                back = img;
+                have_back = 1;
+            % TODO: If a pause is added here, set(h, 'Cdata', img) will fail.
+            % But it would be best if we give user some time to wait.
+
+            % Ernest's_Struct = Ernest's_Function(img, back, Ernest's_Struct);
 
             show_img = img;
             else
-                show_img = drawOutfit(2, img, mask);
+                show_img = drawOutfit(2, img + sklt_img, mask);
             end            
         else
         if toc < show_time + critical_time
@@ -70,13 +78,13 @@ try
                 crowd_path = getSkeleton(img);
                 crowd = readJsonFile(crowd_path)
                 % body = Ernest's_Query(crowd);
-                judge = isSkeletonPass(body, mask);
+                judge = isSkeletonPass(body, sklt_vec);
             end
             show_img = drawOutfit(judge, img, mask);
         else
             % A new level of game
             showMsg(judge);
-            [mask, mask_ske] = genMask();
+            [mask, sklt_img, sklt_vec] = genMask();
             judge = -1;
             tic
         end

@@ -10,6 +10,9 @@ function [ body_path ] = getSkeleton( img )
 % Output:
 %	body_path: string.
 %
+imwrite(img,'tmp\img.jpg');
 
 %% Pull Openpose here.
+!bin\OpenPoseDemo.exe --image_dir tmp\ --write_keypoint_json tmp\ --no_display
+body_path = 'tmp\img_keypoints.json';
 end
