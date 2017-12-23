@@ -13,7 +13,7 @@ function [ mask ,bbmask ] = genMaskFromImg(img,back)
 
 NUMBER_PART = 2;
 
-mask = cropBody(img,back);
+mask = cropBody(img, back);
 
 bbmask = getBondingImg(mask,NUMBER_PART);
 
