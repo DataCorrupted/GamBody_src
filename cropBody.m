@@ -29,7 +29,7 @@ body = rgb2gray(abs((img - back))) > THR_DIFF ;
 % body = rgb2gray(double(body_log)) > 0.001;
 
 % subplot(2,2,4);
-% imshow(body)
+% imshow(body);
 % title('Result with filter');
 % use canny edge detector maybe
 

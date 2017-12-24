@@ -76,7 +76,8 @@ try
             % Make a judge or show the result.
             if judge ~= -1
                 crowd_path = getSkeleton(img);
-                crowd = readJsonFile(crowd_path)
+                crowd = readJsonFile(crowd_path);
+                body = sklt_vec;    % The same
                 % body = Ernest's_Query(crowd);
                 judge = isSkeletonPass(body, sklt_vec);
             end
