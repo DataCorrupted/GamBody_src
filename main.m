@@ -45,11 +45,10 @@ try
     tic
     % Capturing and displaying the processed image during the run time of
     % the camera
-    mask = genMask();
+    [mask, sklt_img, sklt_vec] = genMask();
     have_back = 0;
-    judge = 0;
-    % Assume 24 fps, 50 should be 2s
-    show_time = 2;
+    judge = -1;
+    show_time = 2;		% 2s
     while islogging(obj)
         if toc < critical_time
             % Read a image from camera stream
@@ -77,7 +76,7 @@ try
             if judge ~= -1
                 crowd_path = getSkeleton(img);
                 crowd = readJsonFile(crowd_path);
-                body = sklt_vec;    % The same
+                body = sklt_vec;    % The same, Used before the next line finishes.
                 % body = Ernest's_Query(crowd);
                 judge = isSkeletonPass(body, sklt_vec);
             end
