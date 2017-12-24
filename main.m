@@ -73,11 +73,11 @@ try
         else
         if toc < show_time + critical_time
             % Make a judge or show the result.
-            if judge ~= -1
+            if judge == -1
                 crowd_path = getSkeleton(img);
                 crowd = readJsonFile(crowd_path);
-                body = sklt_vec;    % The same, Used before the next line finishes.
                 % body = Ernest's_Query(crowd);
+                body = crowd;    % Used before the next line finishes.
                 judge = isSkeletonPass(body, sklt_vec);
             end
             show_img = drawOutfit(judge, img, mask);

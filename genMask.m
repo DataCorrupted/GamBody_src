@@ -14,9 +14,12 @@ function [ mask, sklt_img, sklt_vec ] = genMask()
 mask_cnt = 8;
 idx = randi(mask_cnt);
 files = dir('masks');
+% The first 2 files is . and .., then we have 3 files for each mask.
 idx = (idx - 1) * 3 + 2;
 sklt_vec = readJsonFile(strcat('masks/', files(idx+1).name));
 mask = imread(strcat('masks/', files(idx+2).name));
 sklt_img = imread(strcat('masks/', files(idx+3).name));
+% Have to rescale it to [0, 1]
+sklt_img = double(sklt_img) / 256;
 end
 
