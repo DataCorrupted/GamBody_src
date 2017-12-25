@@ -47,7 +47,7 @@ try
     % the camera
     mask = genMask();
     have_back = 0;
-    judge = 0;
+    judge = -1;
     % Assume 24 fps, 50 should be 2s
     show_time = 2;
     while islogging(obj)
@@ -73,7 +73,7 @@ try
         if toc < show_time + critical_time
             % We want the users to be greenish or redish should him success
             % or fail. 
-            if judge ~= -1
+            if judge == -1
                 body = cropBody(img, back);
                 judge = isPass(body, mask);
             end

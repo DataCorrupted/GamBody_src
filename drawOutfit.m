@@ -15,34 +15,6 @@ function [ img ] = drawOutfit( judge, img, mask )
 
 % Should him fail, judge is 0 and we change red channel.
 % Should him success, judge is 1 and we change green channel.
-img(:, :, 1+judge) = img(:, :, 1+judge) .* (1 + mask / 2) + mask * 50 / 255;
-% We change channel by making all pixel in the mask.
-% Multiply by 1(out the mask) or 1.5(in the mask)
-
-% % imshow(mask + body);
-% % not effective
-% I = mask + body;
-% 
-% % Try to draw the outfit of mask and body simultaneously
-% % May not look good, need to adjust the UI later
-% % edge_mask = edge(mask,'canny',0.1);
-% 
-% edge_body = edge(body,'canny',0.1);
-% % Filtering to thicken the edges
-% kernel = ones(7,7);
-% edge_body = conv2(double(edge_body),kernel,'same') > 0;
-% % edge_mask = conv2(double(edge_mask),kernel,'same') > 0;
-% 
-% if judge
-%     % Show green body (maybe yellow mask?)
-%     display = imoverlay(I,edge_body,'green');
-%     % display = imoverlay(display,edge_mask,'yellow');
-% else
-%     % Show red body (maybe yellow mask?)
-%     display = imoverlay(I,edge_body,'red');
-%     % display = imoverlay(display,edge_mask,'yellow');
-% end
-% imshow(display);
-
+img(:, :, 1+judge) = img(:, :, 1+judge) .* (1 + double(mask) / 2);
 end
 
