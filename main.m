@@ -79,8 +79,10 @@ try
                 % body = Ernest's_Query(crowd);
                 body = crowd;    % Used before the next line finishes.
                 judge = isSkeletonPass(body, sklt_vec);
+                % Dressing players
+                dressed_img = dressing(body);
             end
-            show_img = drawOutfit(judge, img, mask);
+            show_img = drawOutfit(judge, img, mask) + dressed_img;
         else
             % A new level of game
             showMsg(judge);
