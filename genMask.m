@@ -11,7 +11,7 @@ function [ mask, sklt_img, sklt_vec ] = genMask()
 %		  we proposed to the user.
 %
 
-mask_cnt = 8;
+mask_cnt = 5;
 idx = randi(mask_cnt);
 files = dir('masks');
 % The first 2 files is . and .., then we have 3 files for each mask.
