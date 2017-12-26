@@ -23,9 +23,9 @@ idx = 1;
 while(1)
     [bbimg, position, flag] = getBondingImgRGB(body, img_RGB, idx);
     % img size
-    ss = size(bbimg,1) * size(bbimg,2);
+    ss = [size(bbimg,1) size(bbimg,2)];
     % break when it is no other body or reach 10th image
-    if ((flag == 0) || (idx > 10) || (ss < 700))
+    if ((flag == 0) || (idx > 10) || (ss(1)*ss(2) < 700))
         break;
     end
 
@@ -60,6 +60,7 @@ while(1)
         bodies_new.size = ss;
         bodies_new.img{end+1} = bbimg;
         bodies_new.score{end+1} = best_score;
+        bodies_new.real = 1;
         disp('tracking person');
         break;
     end
