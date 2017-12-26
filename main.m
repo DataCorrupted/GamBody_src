@@ -42,7 +42,7 @@ try
     % the camera
     [mask, sklt_img, sklt_vec] = genMask();
     judge = -1;
-    show_time = 2;		% 2s
+    show_time = 5;		% 5s
     while islogging(obj)
         if toc < critical_time
             % Read a image from camera stream
@@ -56,6 +56,8 @@ try
             body_path = getSkeleton(img);
             body = readJsonFile(body_path);
             judge = isSkeletonPass(body, sklt_vec);
+            dressed_img = dressing(body);
+            img = img + dressed_img;
             show_img = drawOutfit(judge, img, mask);
         else
             % A new level of game
