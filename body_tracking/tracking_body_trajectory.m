@@ -13,6 +13,15 @@ function [bodies_new] = tracking_body_trajectory(img_RGB, back, bodies)
 
 bodies_new = bodies;
 
+% check the frame_id, if it is not 0, skip 
+% Downsample the sampling rate
+if (bodies.sample_id == 1)
+    bodies_new.sample_id = 0;
+else
+    bodies_new.sample_id = bodies.sample_id + 1;
+    return;         % skip this frame
+end
+
 % label where is bodies
 [ body ] = cropBody(img_RGB, back );
 % figure;
