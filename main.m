@@ -71,16 +71,17 @@ try
                 show_img = drawOutfit(2, img + sklt_img, mask);
             end            
         else
-        if toc < show_time + critical_time
+        if toc < show_time + critical_time 
             % Make a judge or show the result.
             if judge == -1
-                crowd_path = getSkeleton(img)
+                crowd_path = getSkeleton(img);
                 crowd = readJsonFile(crowd_path);
                 % body = Ernest's_Query(crowd);
                 body = crowd;    % Used before the next line finishes.
                 judge = isSkeletonPass(body, sklt_vec);
+                show_img = drawOutfit(judge, img, mask);
             end
-            show_img = drawOutfit(judge, img, mask);
+            
         else
             % A new level of game
             showMsg(judge);
