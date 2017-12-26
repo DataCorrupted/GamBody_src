@@ -1,4 +1,4 @@
-function [ bondingImg, position, flag ] = getBondingImgRGB(img_bool, img_rgb , number)
+function [ bondingImg, position, flag, left_corner ] = getBondingImgRGB(img_bool, img_rgb , number)
 % Get the bounding box for the ith body. Suppose each body is one componment.
 % Input: 
 %       img_bool:           The bool image containing all bodies
@@ -19,6 +19,7 @@ end
 if (max(max(body_with_head)) == 0)
     bondingImg = [];
     position = [];
+    left_corner = [];
     flag = 0;
     return;
 end
@@ -36,7 +37,7 @@ bbcolor = img_rgb(bb_index(2):bb_index(4),bb_index(1):bb_index(3),1:3);
 
 bondingImg = bbcolor;
 position = [(bb_index(2)+bb_index(4))/2 (bb_index(1)+bb_index(3))/2];
-
+left_corner = [bb_index(2) bb_index(1)];
 flag = 1;
 
 function bb_index  = getBB(bb,n)

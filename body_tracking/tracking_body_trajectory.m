@@ -10,12 +10,10 @@ bodies_new = bodies;
 
 % check the frame_id, if it is not 0, skip 
 % Downsample the sampling rate
-if (bodies.sample_id == 1)
-    bodies_new.sample_id = 0;
-else
-    bodies_new.sample_id = bodies.sample_id + 1;
-    return;         % skip this frame
-end
+bodies_new.sample_id = bodies.sample_id + 1;
+% if (mod(bodies.sample_id,2) == 1)
+%     return;         % skip this frame
+% end
 
 % label where is bodies
 [ body ] = cropBody(img_RGB, back );
@@ -28,9 +26,10 @@ unmatched_colorhistogram = {};
 unmatched_positions = {};
 unmatched_size = {};
 unmatched_imgs = {};
+unmatched_left_corner = {};
 unmatched_scores = [];
 while(1)
-    [bbimg, position, flag] = getBondingImgRGB(body, img_RGB, idx);
+    [bbimg, position, flag, left_corner] = getBondingImgRGB(body, img_RGB, idx);
     % img size
     ss = [size(bbimg,1) size(bbimg,2)];
     % filter out img_size < threshold
@@ -40,6 +39,7 @@ while(1)
     % break when it is no other body or reach 10th image
     if ((flag == 0))
         if (idx == 1)
+            create_tracking_image([], img_RGB, [0 0], bodies.sample_id)
             return;             % if no body detected in the image
         else
             break;              % find max-score in unmatched
@@ -75,15 +75,17 @@ while(1)
     % check if the body match with any of the score
     [best_score, ~] = max(scores);
     if (best_score > 250)
-        imshow(bbimg);
+        % imshow(bbimg);
         % update the person's colorhistgram (only update the last feature)
         bodies_new.colorhistogram{end} = colorhist;
-        bodies.positions = [bodies.positions; position];
+        bodies_new.positions = [bodies.positions; position];
         bodies_new.size = ss;
         bodies_new.img{end+1} = bbimg;
         bodies_new.score{end+1} = best_score;
         bodies_new.real = 1;
         disp('person match entirely, breaking out');
+        % create result vedio image
+        create_tracking_image(bbimg, img_RGB, left_corner, bodies.sample_id);
         return;
     else
         % store everything need later to update the body
@@ -93,6 +95,7 @@ while(1)
         unmatched_positions{end+1} = position;
         unmatched_size{end+1} = ss;
         unmatched_imgs{end+1} = bbimg;
+        unmatched_left_corner{end+1} = left_corner;
         disp('person does not match, try next one');
     end
     
@@ -118,4 +121,6 @@ bodies_new.img{end+1} = unmatched_imgs{best_i};
 bodies_new.score{end+1} = unmatched_scores(best_i);
 bodies_new.real = 1;
 disp('person matched');
+create_tracking_image(unmatched_imgs{best_i}, img_RGB,...
+    unmatched_left_corner{best_i}, bodies.sample_id);
 end

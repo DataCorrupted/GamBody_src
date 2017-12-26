@@ -26,12 +26,12 @@ idx = 1;
         'img',cell(1),'score',cell(1));
         bodies_new.colorhistogram{1}=colorhist;
         % for test only
-        bodies_new.img{1} = bbimg;
+        % bodies_new.img{1} = bbimg;
     else
         % add initial features to the body
         bodies_new.colorhistogram{end+1}=colorhist;
         % for test only
-        bodies_new.img{end} = bbimg;
+        % bodies_new.img{end} = bbimg;
     end
     
     % idx = idx + 1;
