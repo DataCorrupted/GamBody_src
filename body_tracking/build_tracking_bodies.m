@@ -20,18 +20,21 @@ idx = 1;
     
     % create new body
     if (size(bodies_new,1) == 0)
+%         bodies_new = struct('colorhistogram',cell(1),...
+%         'size',[0 0],'positions',[0 0],'real',0,...
+%         'sample_id',0,...
+%         'img',cell(1),'score',cell(1));
         bodies_new = struct('colorhistogram',cell(1),...
-        'size',[0 0],'positions',[0 0],'real',0,...
-        'sample_id',0,...
-        'img',cell(1),'score',cell(1));
-        bodies_new.colorhistogram{1}=colorhist;
+            'size',[0 0],'positions',[0 0],'real',0,...
+            'sample_id',0);
+            bodies_new.colorhistogram{1}=colorhist;
         % for test only
-        bodies_new.img{1} = bbimg;
+        % bodies_new.img{1} = bbimg;
     else
         % add initial features to the body
         bodies_new.colorhistogram{end+1}=colorhist;
         % for test only
-        bodies_new.img{end} = bbimg;
+        % bodies_new.img{end} = bbimg;
     end
     
     % idx = idx + 1;

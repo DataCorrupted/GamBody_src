@@ -10,7 +10,7 @@ bodies_new = bodies;
 
 % check the frame_id, if it is not 0, skip 
 % Downsample the sampling rate
-if (bodies.sample_id == 1)
+if (bodies.sample_id == 2)
     bodies_new.sample_id = 0;
 else
     bodies_new.sample_id = bodies.sample_id + 1;
@@ -75,15 +75,15 @@ while(1)
     % check if the body match with any of the score
     [best_score, ~] = max(scores);
     if (best_score > 250)
-        imshow(bbimg);
+        % imshow(bbimg);
         % update the person's colorhistgram (only update the last feature)
         bodies_new.colorhistogram{end} = colorhist;
         bodies.positions = [bodies.positions; position];
         bodies_new.size = ss;
-        bodies_new.img{end+1} = bbimg;
-        bodies_new.score{end+1} = best_score;
+        % bodies_new.img{end+1} = bbimg;
+        % bodies_new.score{end+1} = best_score;
         bodies_new.real = 1;
-        disp('person match entirely, breaking out');
+        % disp('person match entirely, breaking out');
         return;
     else
         % store everything need later to update the body
@@ -92,8 +92,8 @@ while(1)
         unmatched_colorhistogram{end+1} = colorhist;
         unmatched_positions{end+1} = position;
         unmatched_size{end+1} = ss;
-        unmatched_imgs{end+1} = bbimg;
-        disp('person does not match, try next one');
+        % unmatched_imgs{end+1} = bbimg;
+        % disp('person does not match, try next one');
     end
     
     % TODO extract feature of each body (try BRISK)
@@ -114,8 +114,8 @@ end
 bodies_new.colorhistogram{end} = unmatched_colorhistogram{best_i};
 bodies_new.positions = [bodies.positions; unmatched_positions{best_i}];
 bodies_new.size = unmatched_size{best_i};
-bodies_new.img{end+1} = unmatched_imgs{best_i};
-bodies_new.score{end+1} = unmatched_scores(best_i);
+% bodies_new.img{end+1} = unmatched_imgs{best_i};
+% bodies_new.score{end+1} = unmatched_scores(best_i);
 bodies_new.real = 1;
-disp('person matched');
+% disp('person matched');
 end
