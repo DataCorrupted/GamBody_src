@@ -6,14 +6,12 @@ function [bodies_new] = tracking_body_trajectory(img_RGB, back, bodies)
 % Output:
 %       trajectories:    	A struct for saving the trajecctories
 
-% initialization
-bodies_new = bodies;
-matched_idx = zeros(size(bodies,2));
-
 % figure;
 % imshow(img_RGB);
 % figure;
 % imshow(back);
+
+bodies_new = bodies;
 
 % label where is bodies
 [ body ] = cropBody(img_RGB, back );
@@ -27,7 +25,7 @@ while(1)
     % img size
     ss = size(bbimg,1) * size(bbimg,2);
     % break when it is no other body or reach 10th image
-    if ((flag == 0) || (idx > 10) || (ss < 50))
+    if ((flag == 0) || (idx > 10) || (ss < 700))
         break;
     end
 
@@ -36,40 +34,33 @@ while(1)
     
     % compute and weighted sum up all scores, for each body, it should get
     % a score
-    scores = zeros(1,size(bodies,2));
-    for i = 1:1:size(bodies,2)
-        if (matched_idx == 0)
-            
-            % size score
-            if (bodies{i}.real == 0)
-                % just trained, didn't have real size info
-                scores(i) = scores(i) + 50;
-            else
-                scores(i) = size_score(ss,bodies{i}.size);
-            end
-            
-            % hostigram score
-            scores(i) = scores(i) + histogram_score(colorhist,bodies{i}.colorhistogram);
-        end
-    end
-    
-    % match it with bodies in the last iteration, update the position
-    [best_score, best_i] = max(scores);
-    if ((isempty(best_i) == 1))
-        continue;
-    end
-    
-    % update bodies
-    if (best_i == 0)
-        disp('unidentified object found');
+    scores = zeros(1,size(bodies.colorhistogram,2));
+    % calculate the size score
+    if (bodies.real == 0)
+        % for the first matching, give 50
+        size_res = 50;
     else
-        % save the color histogram as a new histogram
-        bodies_new{best_i}.colorhistogram = colorhist;
-        bodies_new{best_i}.positions = [bodies{best_i}.positions; position];
-        bodies_new{best_i}.size = ss;
-        bodies_new{best_i}.img{end+1} = bbimg;
-        bodies_new{best_i}.score{end+1} = best_score;
-        disp('tracking person')
+        size_res = size_score(ss,bodies.size);
+    end
+    
+    for i = 1:1:size(bodies.colorhistogram,2)
+        scores(i) = scores(i) + size_res;
+        scores(i) = scores(i) + histogram_score(colorhist,bodies.colorhistogram{i});
+    end
+    
+    % check if the body match with any of the score
+    [best_score, best_i] = max(scores);
+    if ((isempty(best_i) == 1) || (best_score < 100))
+        disp('person does not match, try next one');
+    else
+        imshow(bbimg);
+        % update the person's colorhistgram (only update the last feature)
+        bodies_new.colorhistogram{end} = colorhist;
+        bodies.positions = [bodies.positions; position];
+        bodies_new.size = ss;
+        bodies_new.img{end+1} = bbimg;
+        bodies_new.score{end+1} = best_score;
+        disp('tracking person');
         break;
     end
     

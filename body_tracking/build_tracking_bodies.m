@@ -7,27 +7,33 @@ bodies_new = bodies;
 [ body ] = cropBody(img_RGB, back );
 
 idx = 1;
-while(1)
+% while(1)
     [bbimg, position, flag] = getBondingImgRGB(body, img_RGB, idx);
     % img size
     ss = size(bbimg,1) * size(bbimg,2);
     % break when there is no other body or reach 10th image
-    if ((flag == 0) || (idx > 10) || (ss < 50))
-        break;
-    end
-    
+%     if ((flag == 0) || (idx > 1) || (ss < 50))
+%         break;
+%     end
     % compute histogram
     colorhist = compute_histogram(bbimg);
     
     % create new body
-    bodies_new{end+1} = struct('colorhistogram',colorhist,...
+    if (size(bodies_new,1) == 0)
+        bodies_new = struct('colorhistogram',cell(1),...
         'size',ss,'positions',[0 0],'real',0,...
         'img',cell(1),'score',cell(1));
-    % for test only
-    bodies_new{end}.img{1} = bbimg;
-    bodies_new{end}.score{1} = 0;
+        bodies_new.colorhistogram{1}=colorhist;
+        % for test only
+        bodies_new.img{1} = bbimg;
+    else
+        % add initial features to the body
+        bodies_new.colorhistogram{end+1}=colorhist;
+        % for test only
+        bodies_new.img{end} = bbimg;
+    end
     
-    idx = idx + 1;
-end
+    % idx = idx + 1;
+% end
 
 end
