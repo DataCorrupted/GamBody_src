@@ -6,11 +6,6 @@ function [bodies_new] = tracking_body_trajectory(img_RGB, back, bodies)
 % Output:
 %       trajectories:    	A struct for saving the trajecctories
 
-% figure;
-% imshow(img_RGB);
-% figure;
-% imshow(back);
-
 bodies_new = bodies;
 
 % check the frame_id, if it is not 0, skip 
@@ -24,8 +19,6 @@ end
 
 % label where is bodies
 [ body ] = cropBody(img_RGB, back );
-% figure;
-% imshow(body);
 
 % extract n people from the background
 idx = 1;
