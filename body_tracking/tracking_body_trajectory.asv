@@ -20,30 +20,15 @@ bodies_new = bodies;
 
 % extract n people from the background
 idx = 1;
-
-% initialization
-unmatched_colorhistogram = {};
-unmatched_positions = {};
-unmatched_size = {};
-unmatched_imgs = {};
 unmatched_scores = [];
 while(1)
     [bbimg, position, flag] = getBondingImgRGB(body, img_RGB, idx);
     % img size
     ss = [size(bbimg,1) size(bbimg,2)];
-    % filter out img_size < threshold
-    if ((ss(1)*ss(2) < 700)||(idx >= 11))
-        flag = 0;
-    end
     % break when it is no other body or reach 10th image
-    if ((flag == 0))
-        if (idx == 1)
-            return;             % if no body detected in the image
-        else
-            break;              % find max-score in unmatched
-        end
+    if ((flag == 0) || (idx > 10) || (ss(1)*ss(2) < 700))
+        break;
     end
-    
 
     % compute histogram
     colorhist = compute_histogram(bbimg);
@@ -71,7 +56,7 @@ while(1)
     end
     
     % check if the body match with any of the score
-    [best_score, ~] = max(scores);
+    [best_score, best_i] = max(scores);
     if (best_score > 250)
         imshow(bbimg);
         % update the person's colorhistgram (only update the last feature)
@@ -87,7 +72,6 @@ while(1)
         % store everything need later to update the body
         % save the score and images for future comparsion
         unmatched_scores = [unmatched_scores best_score];
-        unmatched_colorhistogram{end+1} = colorhist;
         unmatched_positions{end+1} = position;
         unmatched_size{end+1} = ss;
         unmatched_imgs{end+1} = bbimg;
@@ -102,18 +86,6 @@ end
 % if not breaking out yet
 % select the patch get the maximum score
 [best_score, best_i] = max(unmatched_scores);
-% if miss-match
-if (best_score < 80)
-    % miss-match
-    disp('miss-match')
-    return;
-end
 % update the body
-bodies_new.colorhistogram{end} = unmatched_colorhistogram{best_i};
-bodies_new.positions = [bodies.positions; unmatched_positions{best_i}];
-bodies_new.size = unmatched_size{best_i};
-bodies_new.img{end+1} = unmatched_imgs{best_i};
-bodies_new.score{end+1} = unmatched_scores(best_i);
-bodies_new.real = 1;
-disp('person matched');
+bodies_new.colorhistogram{end} = ;
 end

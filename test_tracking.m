@@ -12,7 +12,7 @@ end
 
 
 for i = 1:1:464
-    if (i >= 284)
+    if (i >= 436)
         debug = 1;
     end
     img_RGB = imresize(im2double(imread(strcat('data/',num2str(i),'.png'))),0.5,'nearest');
