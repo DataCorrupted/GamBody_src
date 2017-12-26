@@ -3,15 +3,15 @@ function [ score ] = position_score( position_1, position_2 )
 % disp (strcat('norm =', num2str(norm(position_1 - position_2))));
 
 dist = norm(position_1 - position_2);
-if (dist < 300)
+if (dist < 100)
     score = 100;
     return;
 end
-if (dist < 400)
+if (dist < 300)
     score = 80;
     return;
 end
-if (dist < 500)
+if (dist < 400)
     score = 50;
     return;
 end

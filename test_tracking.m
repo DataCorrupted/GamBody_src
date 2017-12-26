@@ -12,8 +12,11 @@ for i = 1:1:17
     [bodies] = build_tracking_bodies(training_RGB, back, bodies);
 end
 
-
+return;
 for i = 1:1:464
+    if (i >= 231)
+        debug = 1;
+    end
     % img_RGB = imresize(im2double(imread(strcat('data/',num2str(i),'.png'))),0.5,'nearest');
     img_RGB = im2double(imread(strcat('data/',num2str(i),'.png')));
     [bodies] = tracking_body_trajectory(img_RGB, back, bodies);

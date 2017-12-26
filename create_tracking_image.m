@@ -1,5 +1,7 @@
 function create_tracking_image(bbimg, img, left_corner, frame_id)
-
+%TODO for testing
+% imshow(bbimg)
+% return;
 disp(strcat('frame_id=',num2str(frame_id)));
 
 filename = strcat('results/',num2str(frame_id),'.png');

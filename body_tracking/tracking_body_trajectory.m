@@ -33,7 +33,7 @@ while(1)
     % img size
     ss = [size(bbimg,1) size(bbimg,2)];
     % filter out img_size < threshold
-    if ((ss(1)*ss(2) < 700)||(idx >= 11))
+    if ((ss(1)*ss(2) < 2800)||(idx >= 11))
         flag = 0;
     end
     % break when it is no other body or reach 10th image

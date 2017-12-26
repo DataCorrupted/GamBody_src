@@ -17,12 +17,13 @@ idx = 1;
 %     end
     % compute histogram
     colorhist = compute_histogram(bbimg);
+    corners = detect_features(bbimg);
     
     % create new body
     if (size(bodies_new,1) == 0)
         bodies_new = struct('colorhistogram',cell(1),...
         'size',[0 0],'positions',[0 0],'real',0,...
-        'sample_id',0,...
+        'sample_id',1,...
         'img',cell(1),'score',cell(1));
         bodies_new.colorhistogram{1}=colorhist;
         % for test only
