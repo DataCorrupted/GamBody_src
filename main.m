@@ -22,12 +22,7 @@ imaqreset
 % Run "imaqhwinfo('winvideo')", you will see a field called "DeviceInfo"
 % Check "DeviceInfo" you will see it containing a field "SupportedFormats"
 % list them and pick one for your computer. 
-% (We use 1280x720 resolution by default.)
-% Since camera is device dependent, each computer can have different value.
-% For Peter(or all ThinkPad?), it's 'YUY2_1280x720'
-% For Emily(or all Mac?), it's 'YCbCr422_1280x720'
-%
-% TODO: Default is 640 * 480. Do we really want this?
+% (We use JPEG1280x720 resolution by default.)
 imafo = imaqhwinfo;
 adaptor = imafo(1).InstalledAdaptors{1};
 adapinfo = imaqhwinfo(adaptor,1);

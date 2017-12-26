@@ -25,7 +25,7 @@ for i = 1:peopleCount
         end
     end
 end
-loss
+
 if loss > 500 || count < 10
     is_pass = 0;
 else
