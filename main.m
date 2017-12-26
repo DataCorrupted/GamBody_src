@@ -74,7 +74,7 @@ try
         if toc < show_time + critical_time
             % Make a judge or show the result.
             if judge == -1
-                crowd_path = getSkeleton(img);
+                crowd_path = getSkeleton(img)
                 crowd = readJsonFile(crowd_path);
                 % body = Ernest's_Query(crowd);
                 body = crowd;    % Used before the next line finishes.
