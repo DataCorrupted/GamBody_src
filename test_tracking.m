@@ -1,6 +1,7 @@
 % play 3 (testing tracking certain number of person)
 addpath('body_tracking');
 mkdir('results');
+% mkdir('BRISK-results');
 tic;
 bodies = {};
 back = im2double(imread('training/back.png'));
@@ -10,9 +11,14 @@ for i = 1:1:17
     % training_RGB = imresize(im2double(imread(strcat('training/',num2str(i),'.png'))),0.5,'nearest');
     training_RGB = im2double(imread(strcat('training/',num2str(i),'.png')));
     [bodies] = build_tracking_bodies(training_RGB, back, bodies);
+    % save fast results
+%     saveas(1,strcat('BRISK-results/',num2str(i),'.png'))
+%     pause(2);
+%     close all;
+    
 end
 
-return;
+
 for i = 1:1:464
     if (i >= 231)
         debug = 1;

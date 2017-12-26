@@ -17,7 +17,7 @@ idx = 1;
 %     end
     % compute histogram
     colorhist = compute_histogram(bbimg);
-    corners = detect_features(bbimg);
+%     corners = detect_features(bbimg);
     
     % create new body
     if (size(bodies_new,1) == 0)
