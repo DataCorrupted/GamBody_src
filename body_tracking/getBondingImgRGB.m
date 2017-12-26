@@ -1,7 +1,27 @@
-function [ bondingImg, position ] = getBondingImgRGB(img_bool,img_rgb , number)
+function [ bondingImg, position, flag ] = getBondingImgRGB(img_bool, img_rgb , number)
+% Get the bounding box for the ith body. Suppose each body is one componment.
+% Input: 
+%       img_bool:           The bool image containing all bodies
+%       img_rgb:            The RGB image
+%       number:             The ith body want to extract
+% Output:
+%       bondingImg:         The bonding RGB image
+%       position:           The 2D position
+%       flag:               success (true)
 
 % the biggest two, this will contain head
-body_with_head = bwareafilt(img_bool, number);
+if (number == 1)
+    body_with_head = bwareafilt(img_bool, number);
+else
+    body_with_head = bwareafilt(img_bool, number) - bwareafilt(img_bool, number-1);
+end
+
+if (max(max(body_with_head)) == 0)
+    bondingImg = [];
+    position = [];
+    flag = 0;
+    return;
+end
 
 bb = regionprops(body_with_head, 'BoundingBox');
 % bb is find the bounding box of the body.
@@ -15,8 +35,9 @@ bb_index = getBB(bb, min(length(bb), number));
 bbcolor = img_rgb(bb_index(2):bb_index(4),bb_index(1):bb_index(3),1:3);
 
 bondingImg = bbcolor;
-% TODO is the position correct? 
-position = [(bb_index(2)+bb_index(4))/2; (bb_index(1)+bb_index(3))/2];
+position = [(bb_index(2)+bb_index(4))/2 (bb_index(1)+bb_index(3))/2];
+
+flag = 1;
 
 function bb_index  = getBB(bb,n)
     temp = zeros(n,4);
