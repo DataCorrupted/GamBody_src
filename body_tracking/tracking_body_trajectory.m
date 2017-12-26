@@ -20,6 +20,7 @@ bodies_new = bodies;
 
 % extract n people from the background
 idx = 1;
+unmatched_scores = [];
 while(1)
     [bbimg, position, flag] = getBondingImgRGB(body, img_RGB, idx);
     % img size
@@ -35,24 +36,28 @@ while(1)
     % compute and weighted sum up all scores, for each body, it should get
     % a score
     scores = zeros(1,size(bodies.colorhistogram,2));
-    % calculate the size score
+    
     if (bodies.real == 0)
         % for the first matching, give 50
         size_res = 50;
+        position_res = 50;
     else
+        % calculate the size score
         size_res = size_score(ss,bodies.size);
+        % calculate the position score
+        position_res = position_score(position,bodies.positions(end,:));
     end
+    
     
     for i = 1:1:size(bodies.colorhistogram,2)
         scores(i) = scores(i) + size_res;
+        scores(i) = scores(i) + position_res;
         scores(i) = scores(i) + histogram_score(colorhist,bodies.colorhistogram{i});
     end
     
     % check if the body match with any of the score
     [best_score, best_i] = max(scores);
-    if ((isempty(best_i) == 1) || (best_score < 100))
-        disp('person does not match, try next one');
-    else
+    if (best_score > 250)
         imshow(bbimg);
         % update the person's colorhistgram (only update the last feature)
         bodies_new.colorhistogram{end} = colorhist;
@@ -61,12 +66,19 @@ while(1)
         bodies_new.img{end+1} = bbimg;
         bodies_new.score{end+1} = best_score;
         bodies_new.real = 1;
-        disp('tracking person');
-        break;
+        disp('person match entirely, breaking out');
+        return;
+    else
+        % save the score and images for future comparsion
+        disp('person does not match, try next one');
     end
     
     % TODO extract feature of each body (try BRISK)
     
     idx = idx + 1;
+end
+
+% if not breaking out yet
+for i = 1:1:size()
 end
 end
