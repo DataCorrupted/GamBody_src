@@ -46,7 +46,6 @@ try
     % Capturing and displaying the processed image during the run time of
     % the camera
     [mask, sklt_img, sklt_vec] = genMask();
-    have_back = 0;
     judge = -1;
     show_time = 2;		% 2s
     while islogging(obj)
@@ -55,33 +54,14 @@ try
             img = double(getdata(obj,1)) / 255;
             % Mirror
             img = flip(img, 2);
-
-            % TODO: I can't extract a background outside the loop. Back and img
-            % will be the same because flushdata didn't work. No idea why.
-            if have_back == 0 
-                back = img;
-                have_back = 1;
-            % TODO: If a pause is added here, set(h, 'Cdata', img) will fail.
-            % But it would be best if we give user some time to wait.
-
-            % Ernest's_Struct = Ernest's_Function(img, back, Ernest's_Struct);
-
-            show_img = img;
-            else
-                show_img = drawOutfit(2, img + sklt_img, mask);
-            end            
+            show_img = drawOutfit(2, img + sklt_img, mask);       
         else
-        if toc < show_time + critical_time 
+        if toc < show_time + critical_time && judge == -1
             % Make a judge or show the result.
-            if judge == -1
-                crowd_path = getSkeleton(img);
-                crowd = readJsonFile(crowd_path);
-                % body = Ernest's_Query(crowd);
-                body = crowd;    % Used before the next line finishes.
-                judge = isSkeletonPass(body, sklt_vec);
-                show_img = drawOutfit(judge, img, mask);
-            end
-            
+            body_path = getSkeleton(img);
+            body = readJsonFile(body_path);
+            judge = isSkeletonPass(body, sklt_vec);
+            show_img = drawOutfit(judge, img, mask);
         else
             % A new level of game
             showMsg(judge);

@@ -16,7 +16,7 @@ function [ img ] = drawOutfit( judge, img, mask )
 % Should him fail, judge is 0 and we change red channel.
 % Should him success, judge is 1 and we change green channel.
 
-img(:, :, 1+judge) = img(:, :, 1+judge) .* (1 + double(mask) / 3);
+img(:, :, 1+judge) = img(:, :, 1+judge) .* (1 + double(mask) / 5);
 % We change channel by making all pixel in the mask.
 % Multiply by 1(out the mask) or 1.5(in the mask)
 

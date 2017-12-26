@@ -17,7 +17,6 @@ count = 0;
 % Suppose size(mask) is same
 [~,points,peopleCount] = size(body);
 for i = 1:peopleCount
-    man = body(:,:,i);
     mask = mask(:,:,i);
     for j = 1:points
         if body(3,j) >= 0.4 && mask(3,j) >= 0.4
@@ -26,7 +25,8 @@ for i = 1:peopleCount
         end
     end
 end
-if loss > 200 || count < 10
+loss
+if loss > 500 || count < 10
     is_pass = 0;
 else
     is_pass = 1;
