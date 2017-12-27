@@ -1,4 +1,5 @@
 function [ ] = main( critical_time )
+addpath('body_tracking');
 %main Summary of this function goes here
 %
 % There is no main function is MATLAB, but having one is better.
@@ -29,6 +30,17 @@ adapinfo = imaqhwinfo(adaptor,1);
 % In Peter's computer the first one format is 1280*720.
 formats = adapinfo.SupportedFormats{1};
 obj = videoinput(adaptor, 1, formats);
+
+% initialize the body tracking
+% Initialize
+bodies ={};
+back_training = im2double(imread('training/back.png'));
+back_training = imresize(back_training,0.5);
+for i = 1:1:17
+    training_RGB = imresize(im2double(imread(strcat('training/',num2str(i),'.png'))),0.5,'nearest');
+    [bodies] = build_tracking_bodies(training_RGB, back_training, bodies);
+end
+
 try
     % Initialize various parameters, and load in the template data
     set(obj, 'framesperTrigger', 10, 'TriggerRepeat', Inf);
@@ -42,6 +54,7 @@ try
     % the camera
     [mask, sklt_img, sklt_vec] = genMask();
     judge = -1;
+    have_back = 0;
     show_time = 2;		% 2s
     while islogging(obj)
         if toc < critical_time
@@ -49,12 +62,30 @@ try
             img = double(getdata(obj,1)) / 255;
             % Mirror
             img = flip(img, 2);
-            show_img = drawOutfit(2, img + sklt_img, mask);       
+            % TODO: I can't extract a background outside the loop. Back and img
+            % will be the same because flushdata didn't work. No idea why.
+            if have_back == 0 
+                back = img;
+                have_back = 1;
+            % TODO: If a pause is added here, set(h, 'Cdata', img) will fail.
+            % But it would be best if we give user some time to wait.
+            show_img = img;
+            else
+                show_img = drawOutfit(2, img + sklt_img, mask);
+            end            
+             % Tracking Player
+             % resize back and img
+             img_tracking = imresize(img,0.5,'nearest');
+             back_tracking = imresize(back,0.5,'nearest');
+             [bodies] = tracking_body_trajectory(img_tracking, back_tracking, bodies);
         else
         if toc < show_time + critical_time && judge == -1
             % Make a judge or show the result.
-            body_path = getSkeleton(img);
-            body = readJsonFile(body_path);
+            crowd_path = getSkeleton(img);
+            crowd = readJsonFile(crowd_path);
+            
+            body = query_bodies( bodies, img,  crowd );
+            
             judge = isSkeletonPass(body, sklt_vec);
             show_img = drawOutfit(judge, img, mask);
         else

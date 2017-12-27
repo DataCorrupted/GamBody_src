@@ -30,7 +30,8 @@ for i = 1:peopleCount
         end
     end
 end
-if loss > 25 || count < 10
+loss
+if loss > 40 || count < 10
     is_pass = 0;
 else
     is_pass = 1;
