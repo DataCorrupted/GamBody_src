@@ -1,0 +1,6 @@
+bin/*
+examples/
+models/*
+tmp/*
+data/
+training/

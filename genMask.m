@@ -1,4 +1,4 @@
-function [ mask ] = genMask()
+function [ mask, sklt_img, sklt_vec ] = genMask()
 %genMask Summary of this function goes here
 %
 % Draw the current state as a feedback to user.
@@ -13,10 +13,13 @@ function [ mask ] = genMask()
 
 mask_cnt = 5;
 idx = randi(mask_cnt);
-pat = strcat('masks/mask', num2str(idx), '.jpg');
-mask = imread(pat);
-% subplot(121); imshow(mask);
-mask = mask > 200;
-% subplot(122); imshow(mask);
+files = dir('masks');
+% The first 2 files is . and .., then we have 3 files for each mask.
+idx = (idx - 1) * 3 + 2;
+sklt_vec = readJsonFile(strcat('masks/', files(idx+1).name));
+mask = imread(strcat('masks/', files(idx+2).name));
+sklt_img = imread(strcat('masks/', files(idx+3).name));
+% Have to rescale it to [0, 1]
+sklt_img = double(sklt_img) / 256;
 end
 
