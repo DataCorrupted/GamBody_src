@@ -75,7 +75,7 @@ while(1)
     % check if the body match with any of the score
     [best_score, ~] = max(scores);
     if (best_score > 250)
-        imshow(bbimg);
+        % imshow(bbimg);
         % update the person's colorhistgram (only update the last feature)
         bodies_new.colorhistogram{end} = colorhist;
         bodies_new.positions = [bodies.positions; position];
@@ -118,5 +118,5 @@ bodies_new.size = unmatched_size{best_i};
 % bodies_new.score{end+1} = unmatched_scores(best_i);
 bodies_new.real = 1;
 % disp('person matched');
-imshow(unmatched_imgs{best_i});
+% imshow(unmatched_imgs{best_i});
 end

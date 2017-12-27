@@ -8,15 +8,15 @@ if (dist < 300)
     return;
 end
 if (dist < 400)
-    score = 80;
+    score = 0.8 * (400-dist);
     return;
 end
 if (dist < 500)
-    score = 50;
+    score = 0.5*(500-dist);
     return;
 end
 if (dist < 600)
-    score = 30;
+    score = 0.3*(600-dist);
     return;
 end
 
