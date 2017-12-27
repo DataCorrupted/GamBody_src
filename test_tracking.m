@@ -12,11 +12,11 @@ end
 
 
 for i = 1:1:464
-    if (i >= 436)
+    if (i >= 180)
         debug = 1;
     end
     img_RGB = imresize(im2double(imread(strcat('data/',num2str(i),'.png'))),0.5,'nearest');
     [bodies] = tracking_body_trajectory(img_RGB, back, bodies);
-    % disp(i);
+    disp(i);
 end
 toc;

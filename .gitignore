@@ -4,3 +4,4 @@ models/
 tmp/
 data/
 training/
+*.avi
