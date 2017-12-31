@@ -29,7 +29,7 @@ v2.0 is the most stable version, which is the same with master.
 
 v2.1 is the version with cloth added.
 
-v2.2 is the version with noise cancellation.
+v2.2 is the version with noise cancellation (body region tracking).
 
 # Contact
 Any bug founded, feel free to contact any of the contributors.
